@@ -59,7 +59,7 @@ extension _CBOREncoder.UnkeyedContainer: UnkeyedEncodingContainer {
     }
 
     func superEncoder() -> Encoder {
-        fatalError("Unimplemented") // FIXME
+        throw CBORError.unimplemented
     }
 }
 

@@ -49,7 +49,7 @@ extension _CBORDecoder {
             for _ in 0..<count {
                 guard let keyContainer = iterator.next() as? _CBORDecoder.SingleValueContainer,
                     let container = iterator.next() else {
-                        fatalError() // FIXME
+                    throw CBORError.unfinishedSequence
                 }
 
                 let keyVal: AnyCodingKey

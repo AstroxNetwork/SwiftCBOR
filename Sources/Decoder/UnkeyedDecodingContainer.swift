@@ -61,7 +61,7 @@ extension _CBORDecoder {
                     nestedContainers.append(container)
                 }
             } catch {
-                fatalError("\(error)") // FIXME
+                throw CBORError.wrongTypeInsideSequence
             }
 
             self.currentIndex = 0

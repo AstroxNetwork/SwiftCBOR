@@ -24,14 +24,14 @@ struct AnyCodingKey: CodingKey, Equatable {
         }
     }
 
-    func key<K: CodingKey>() -> K {
+    func key<K: CodingKey>() throws -> K {
         if let intValue = self.intValue {
             return K(intValue: intValue)!
         } else if let stringValue = self._stringValue {
             return K(stringValue: stringValue)!
-        } else {
-            fatalError("AnyCodingKey created without a string or int value")
         }
+        // Any CodingKey created without a string or int value
+        throw CBORError.wrongTypeInsideSequence
     }
 }
 
@@ -48,9 +48,9 @@ extension AnyCodingKey: Encodable {
             try container.encode(intValue)
         } else if let stringValue = self._stringValue {
             try container.encode(stringValue)
-        } else {
-            fatalError("AnyCodingKey created without a string or int value")
         }
+        // Any CodingKey created without a string or int value
+        throw CBORError.wrongTypeInsideSequence
     }
 }
 

@@ -2,13 +2,6 @@
 import Foundation
 #endif
 
-public enum CBORError : Error {
-    case unfinishedSequence
-    case wrongTypeInsideSequence
-    case tooLongSequence
-    case incorrectUTF8String
-}
-
 extension CBOR {
     static public func decode(_ input: [UInt8], options: CBOROptions = CBOROptions()) throws -> CBOR? {
         return try CBORDecoder(input: input, options: options).decodeItem()

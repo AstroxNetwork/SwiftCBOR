@@ -67,11 +67,11 @@ extension _CBOREncoder.KeyedContainer: KeyedEncodingContainerProtocol {
     }
 
     func superEncoder() -> Encoder {
-        fatalError("Unimplemented") // FIXME
+        throw CBORError.unimplemented
     }
 
     func superEncoder(forKey key: Key) -> Encoder {
-        fatalError("Unimplemented") // FIXME
+        throw CBORError.unimplemented
     }
 }
 

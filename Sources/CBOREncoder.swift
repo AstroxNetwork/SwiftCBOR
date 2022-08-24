@@ -24,7 +24,7 @@ extension CBOR {
     /// Encodes an array as either a CBOR array type or a CBOR bytestring type, depending on `asByteString`.
     /// NOTE: when `asByteString` is true and T = UInt8, the array is interpreted in network byte order
     /// Arrays with values of all other types will have their bytes reversed if the system is little endian.
-    public static func encode<T: CBOREncodable>(_ array: [T], asByteString: Bool = false, options: CBOROptions = CBOROptions()) -> [UInt8] {
+    public static func encode<T: CBOREncodable>(_ array: [T], asByteString: Bool = false, options: CBOROptions = CBOROptions()) throws -> [UInt8] {
         if asByteString {
             let length = array.count
             var res = length.encode()
@@ -35,9 +35,9 @@ extension CBOR {
 
             let noReversalNeeded = isBigEndian || T.self == UInt8.self
 
-            array.withUnsafeBytes { bufferPtr in
+            try? array.withUnsafeBytes { bufferPtr in
                 guard let ptr = bufferPtr.baseAddress?.bindMemory(to: UInt8.self, capacity: bytelength) else {
-                    fatalError("Invalid pointer")
+                    throw CBORError.invalidPointer
                 }
                 var j = 0
                 for i in 0..<bytelength {
